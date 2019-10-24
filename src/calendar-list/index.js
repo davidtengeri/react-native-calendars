@@ -101,6 +101,8 @@ class CalendarList extends Component {
     this.renderCalendarBound = this.renderCalendar.bind(this);
     this.getItemLayout = this.getItemLayout.bind(this);
     this.onLayout = this.onLayout.bind(this);
+    
+    this.scrollTimeout = undefined;
   }
 
   onLayout(event) {
@@ -193,7 +195,10 @@ class CalendarList extends Component {
     }
     
     if (this.props.onVisibleMonthsChange) {
-      this.props.onVisibleMonthsChange(visibleMonths);
+      clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = setTimeout(() => {
+          this.props.onVisibleMonthsChange(visibleMonths);
+      }, 200);
     }
 
     this.setState({
